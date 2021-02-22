@@ -1,7 +1,8 @@
 from pyheapfile.heap import to_bytes, from_bytes
 
+from pydllfile.dllist import LINK_SIZE
+
 KEY_DATA_MAX = 2 ** (3 * 4)  # 4096, can be stored in 12 bits == 3 nibbles
-LINK_SIZE = 8
 
 
 class Node(object):

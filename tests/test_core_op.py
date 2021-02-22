@@ -2,7 +2,12 @@ import unittest
 
 import uuid
 
-from pybtreecore.btcore import BTreeCoreFile, DoubleLinkedListFile, HeapFile
+from pybtreecore.btcore import (
+    BTreeCoreFile,
+    BTreeElement,
+    DoubleLinkedListFile,
+    HeapFile,
+)
 from pydllfile.dllist import Element, LINK_SIZE
 from pybtreecore.btcore import Node, NodeList, newid, KEYS_PER_NODE, KEY_SIZE, DATA_SIZE
 
@@ -29,26 +34,26 @@ class BTreeOpTestCase(unittest.TestCase):
 
         core = BTreeCoreFile(hpf)
 
-        node, elem, nodelist = core.create_empty_list()
-        self.assertNotEqual(node.id, None)
+        bt_elem = core.create_empty_list()
+        self.assertNotEqual(bt_elem.node.id, None)
 
         # since the id's are unknown order is unpredictable
-        nodelist.insert(Node(key=newid(), data="hello"))
-        nodelist.insert(Node(key=newid(), data=" "))
-        nodelist.insert(Node(key=newid(), data="world"))
-        nodelist.insert(Node(key=newid(), data="!"))
+        bt_elem.nodelist.insert(Node(key=newid(), data="hello"))
+        bt_elem.nodelist.insert(Node(key=newid(), data=" "))
+        bt_elem.nodelist.insert(Node(key=newid(), data="world"))
+        bt_elem.nodelist.insert(Node(key=newid(), data="!"))
 
-        core.write_list(node, elem, nodelist)
-        node2, elem2, nodelist2 = core.read_list(elem.pos)
+        core.write_list(bt_elem)
+        bt_elem2 = core.read_list(bt_elem.elem.pos)
 
-        self.assertEqual(len(nodelist2), len(nodelist))
+        self.assertEqual(len(bt_elem2.nodelist), len(bt_elem.nodelist))
 
-        for n in nodelist2:
-            nodelist.remove(n)
+        for n in bt_elem2.nodelist:
+            bt_elem.nodelist.remove(n)
 
-        self.assertEqual(len(nodelist), 0)
+        self.assertEqual(len(bt_elem.nodelist), 0)
 
-        print(nodelist2)
+        print(bt_elem2.nodelist)
 
         hpf.close()
 
@@ -69,6 +74,6 @@ class BTreeOpTestCase(unittest.TestCase):
         print("total size", tot_size)
         self.assertEqual(tot_size, 2 ** 12)  # 4096 bytes
 
-        node, elem, nodelist = core.create_empty_list()
+        bt_elemt = core.create_empty_list()
 
         hpf.close()

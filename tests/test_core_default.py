@@ -46,9 +46,9 @@ class BTreeTestCase(unittest.TestCase):
         self.assertEqual(msize, leaf_size)
         self.assertEqual(msize, max(el_size_1, el_size_2))
 
-        node, elem, nodelist = core.create_empty_list()
-        self.assertNotEqual(node.id, None)
+        bt_elem = core.create_empty_list()
+        self.assertNotEqual(bt_elem.node.id, None)
 
-        print("node id", node.id)
+        print("node id", bt_elem.node.id)
 
         hpf.close()

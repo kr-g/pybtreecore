@@ -15,6 +15,13 @@ def newid():
     return uuid.uuid4().hex
 
 
+class BTreeElement(object):
+    def __init__(self, node, elem, nodelist):
+        self.node = node
+        self.elem = elem
+        self.nodelist = nodelist
+
+
 class BTreeCoreFile(object):
     def __init__(
         self,
@@ -58,7 +65,7 @@ class BTreeCoreFile(object):
 
     def create_empty_list(self):
         node, elem, other_elem = self.fd.insert_elem(max_data_alloc=self.alloc_max_size)
-        return node, elem, NodeList()
+        return BTreeElement(node, elem, NodeList())
 
     def read_list(self, pos, free_unused=True):
         node, elem = self.fd.read_elem(pos)
@@ -66,19 +73,19 @@ class BTreeCoreFile(object):
         nodelist.from_bytes(elem.data)
         if free_unused == True:
             elem.data = None
-        return node, elem, nodelist
+        return BTreeElement(node, elem, nodelist)
 
-    def write_list(self, node, elem, nodelist, free_unused=True):
-        elem.data = nodelist.to_bytes()
-        self.fd.write_elem(node, elem)
+    def write_list(self, bt_elem, free_unused=True):
+        bt_elem.elem.data = bt_elem.nodelist.to_bytes()
+        self.fd.write_elem(bt_elem.node, bt_elem.elem)
         if free_unused == True:
-            elem.data = None
+            bt_elem.elem.data = None
 
-    def free_list(self, btlist):
+    def free_list(self, bt_elem, bt_parent_elem=None):
         pass
 
-    def split_list(self, btlist, pos=-1):
+    def split_list(self, bt_elem, bt_parent_elem=None):
         pass
 
-    def merge_list(self, btlist):
+    def merge_list(self, bt_elem, bt_parent_elem=None):
         pass

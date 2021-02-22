@@ -33,9 +33,11 @@ class BTreeTestCase(unittest.TestCase):
         flag_size = 1
         key_data_len = 3
 
-        el_size_1 = KEYS_PER_NODE * (KEY_SIZE + DATA_SIZE + flag_size + key_data_len)
+        el_size_1 = LINK_SIZE + KEYS_PER_NODE * (
+            KEY_SIZE + DATA_SIZE + flag_size + key_data_len
+        )
 
-        el_size_2 = KEYS_PER_NODE * (
+        el_size_2 = LINK_SIZE + KEYS_PER_NODE * (
             KEY_SIZE + 2 * LINK_SIZE + flag_size + key_data_len
         )
 

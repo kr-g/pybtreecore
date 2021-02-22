@@ -64,8 +64,8 @@ class NodeListTestCase(unittest.TestCase):
     def test_nodelist_split_join(self):
         nli, n1, n2, n3, n4 = self.the_nodelist()
 
-        nl = nli[:2]
-        nr = nli[2:]
+        nl = nli.sliced(0, 2)
+        nr = nli.sliced(2)
 
         self.assertEqual(n1, nl[0])
         self.assertEqual(n3, nl[1])
@@ -73,7 +73,7 @@ class NodeListTestCase(unittest.TestCase):
         self.assertEqual(n4, nr[0])
         self.assertEqual(n2, nr[1])
 
-        ng = nl + nr
+        ng = nl.join(nr)
         self.assertEqual(nli, ng)
 
         self.assertEqual(n1, ng[0])
@@ -90,3 +90,15 @@ class NodeListTestCase(unittest.TestCase):
         self.assertEqual(len(keys), 2)
         self.assertEqual(keys, ["leaf1", "leaf2"])
         self.assertEqual(data, ["hello", "world"])
+
+    def test_nodelist_parent(self):
+        nl, n1, n2, n3, n4 = self.the_nodelist()
+        nl.parent = 153
+
+        buf = nl.to_bytes()
+
+        li = NodeList().from_bytes(buf)
+        self.assertEqual(nl, li)
+
+        li.parent = 0
+        self.assertNotEqual(nl, li)

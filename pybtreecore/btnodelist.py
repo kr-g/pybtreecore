@@ -1,11 +1,15 @@
 import bisect
 
-from .btnode import Node
+from pyheapfile.heap import to_bytes, from_bytes
+
+from .btnode import Node, LINK_SIZE
 
 
 class NodeList(object):
-    def __init__(self, pos=0):
+    def __init__(self, pos=0, parent=0, link_size=LINK_SIZE):
         self.pos = pos
+        self.link_size = link_size
+        self.parent = parent
         self.arr = []
 
     def __repr__(self):
@@ -20,6 +24,17 @@ class NodeList(object):
 
     def pop(self, pos=-1):
         return self.arr.pop(pos)
+
+    def join(self, other):
+        nl = NodeList(link_size=self.link_size)
+        nl.arr = list(self.arr)
+        nl.arr.extend(other.arr)
+        return nl
+
+    def sliced(self, a=None, b=None):
+        nl = NodeList(link_size=self.link_size)
+        nl.arr = list(self.arr[a:b])
+        return nl
 
     def remove(self, o):
         return self.arr.remove(o)
@@ -58,6 +73,8 @@ class NodeList(object):
         size = len(self)
         if size != len(other):
             return False
+        if self.parent != other.parent:
+            return False
         for i in range(0, size):
             if self[i] != other[i]:
                 return False
@@ -68,6 +85,7 @@ class NodeList(object):
         _len = len(self.arr)
         if _len > 0xFF:
             raise Exception("too much nodes in list")
+        buf.extend(to_bytes(self.parent, self.link_size))
         for i in range(0, _len):
             obj = self.arr[i]
             if not isinstance(obj, Node):
@@ -80,6 +98,8 @@ class NodeList(object):
         return buf[:blen], buf[blen:]
 
     def from_bytes(self, buf):
+        b, buf = self._split(buf, self.link_size)
+        self.parent = from_bytes(b)
         while len(buf) > 0:
             n = Node()
             res = n.from_bytes(buf)

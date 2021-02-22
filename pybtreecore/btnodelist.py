@@ -76,7 +76,8 @@ class NodeList(object):
     def _split(buf, blen):
         return buf[:blen], buf[blen:]
 
-    def from_bytes(self, buf):
+    def from_bytes(self, buf, pos=0):
+        self.pos = pos
         while len(buf) > 0:
             n = Node()
             res = n.from_bytes(buf)

@@ -10,14 +10,11 @@ class Node(object):
         leaf=False,
         key=None,
         data=None,
-        parent=0,
         left=0,
         right=0,
         link_size=LINK_SIZE,
     ):
-        self.pos = 0
         self.link_size = link_size
-        self.set_parent(parent)
         self.leaf = leaf
         self.set_key(key)
         self.left = left
@@ -34,8 +31,6 @@ class Node(object):
             + str(self.key)
             + ", data:"
             + str(self.data)
-            + ", parent:"
-            + hex(self.parent)
             + ", left:"
             + hex(self.left)
             + ", right:"
@@ -49,17 +44,11 @@ class Node(object):
     def __eq__(self, other):
         return (
             self.leaf == other.leaf
-            and self.parent_pt == other.parent_pt
             and self.key == other.key
             and self.data == other.data
-            and self.parent == other.parent
             and self.left == other.left
             and self.right == other.right
         )
-
-    def set_parent(self, xpos):
-        self.parent_pt = xpos > 0
-        self.parent = xpos
 
     def set_key(self, key):
         self.key_len = len(key) if key != None else 0
@@ -79,8 +68,6 @@ class Node(object):
         flags = 0
         if self.leaf:
             flags |= 1 << 0
-        if self.parent_pt:
-            flags |= 1 << 1
         buf.extend(to_bytes(flags, 1))
 
         key_low = self.key_len & 0xFF
@@ -100,11 +87,6 @@ class Node(object):
 
         buf.extend(self.key.encode())
 
-        if self.parent > 0:
-            if not self.parent_pt:
-                raise Exception("parent pointer set")
-            buf.extend(to_bytes(self.parent, self.link_size))
-
         if self.leaf == True:
             if self.data == None:
                 raise Exception("no data set")
@@ -123,11 +105,11 @@ class Node(object):
     def _split(buf, blen):
         return buf[:blen], buf[blen:]
 
-    def from_bytes(self, buf, decode=True):
+    def from_bytes(self, buf, pos=0, decode=True):
+        self.pos = pos
         b, buf = self._split(buf, 1)
         flags = from_bytes(b)
         self.leaf = 1 << 0 & flags > 0
-        self.parent_pt = 1 << 1 & flags > 0
 
         b, buf = self._split(buf, 1)
         high = from_bytes(b)
@@ -143,10 +125,6 @@ class Node(object):
 
         b, buf = self._split(buf, self.key_len)
         self.key = bytes(b).decode() if decode else b
-
-        if self.parent_pt:
-            b, buf = self._split(buf, self.link_size)
-            self.parent = from_bytes(b)
 
         if self.leaf == True:
             b, buf = self._split(buf, self.data_len)

@@ -27,7 +27,6 @@ class BTreeTestCase(unittest.TestCase):
 
         inner_size = core._calc_empty_list(leaf=False)
         leaf_size = core._calc_empty_list(leaf=True)
-
         msize = core._calc_empty()
 
         n = Element(hpf)

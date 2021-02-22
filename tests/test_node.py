@@ -42,25 +42,6 @@ class NodeTestCase(unittest.TestCase):
         self.assertEqual(n2.right, 2)
         self.assertEqual(n2.right, 2)
 
-    def test_with_parent(self):
-        n1 = Node(key="hello", parent=12, left=1, right=2)
-        buf = n1.to_bytes()
-        n2 = Node().from_bytes(buf)
-        self.assertEqual(n1, n2)
-
-        self.assertEqual(n2.key, "hello")
-        self.assertEqual(n2.data, None)
-        self.assertEqual(n2.parent, 12)
-        self.assertEqual(n2.right, 2)
-        self.assertEqual(n2.right, 2)
-
-    def test_with_parent_fail(self):
-        n1 = Node(key="hello", parent=12, left=1, right=2)
-        buf = n1.to_bytes()
-        n2 = Node().from_bytes(buf)
-        n2.set_parent(0)
-        self.assertNotEqual(n1, n2)
-
     def test_long_key_data(self):
 
         key_s = " " * 300 + "hello"

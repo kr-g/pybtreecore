@@ -1,3 +1,5 @@
+import uuid
+
 from pyheapfile.heap import HeapFile, to_bytes, from_bytes
 from pydllfile.dllist import DoubleLinkedListFile, LINK_SIZE
 from pybtreecore.btnode import Node
@@ -7,6 +9,10 @@ KEYS_PER_NODE = 16
 
 KEY_SIZE = 32
 DATA_SIZE = 32
+
+
+def newid():
+    return uuid.uuid4().hex
 
 
 class BTreeCoreFile(object):

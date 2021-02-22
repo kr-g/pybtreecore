@@ -4,13 +4,9 @@ import uuid
 
 from pybtreecore.btcore import BTreeCoreFile, DoubleLinkedListFile, HeapFile
 from pydllfile.dllist import Element, LINK_SIZE
-from pybtreecore.btcore import Node, NodeList, KEYS_PER_NODE, KEY_SIZE, DATA_SIZE
+from pybtreecore.btcore import Node, NodeList, newid, KEYS_PER_NODE, KEY_SIZE, DATA_SIZE
 
 fnam = "optest.hpf"
-
-
-def newid():
-    return uuid.uuid4().hex
 
 
 class BTreeOpTestCase(unittest.TestCase):
@@ -35,8 +31,6 @@ class BTreeOpTestCase(unittest.TestCase):
         node, elem, nodelist = core.create_empty_list(msize)
         self.assertNotEqual(node.id, None)
 
-        print("node id", node.id)
-
         # since the id's are unknown order is unpredictable
         nodelist.insert(Node(key=newid(), data="hello"))
         nodelist.insert(Node(key=newid(), data=" "))
@@ -44,7 +38,6 @@ class BTreeOpTestCase(unittest.TestCase):
         nodelist.insert(Node(key=newid(), data="!"))
 
         core.write_list(node, elem, nodelist)
-
         node2, elem2, nodelist2 = core.read_list(elem.pos)
 
         self.assertEqual(len(nodelist2), len(nodelist))

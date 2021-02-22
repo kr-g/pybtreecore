@@ -1,6 +1,7 @@
 from pyheapfile.heap import HeapFile, to_bytes, from_bytes
 from pydllfile.dllist import DoubleLinkedListFile, LINK_SIZE
-from pybtreecore.btnodelist import Node, NodeList
+from pybtreecore.btnode import Node
+from pybtreecore.btnodelist import NodeList
 
 KEYS_PER_NODE = 16
 

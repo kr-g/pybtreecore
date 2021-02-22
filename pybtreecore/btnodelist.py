@@ -8,6 +8,9 @@ class NodeList(object):
         self.pos = pos
         self.arr = []
 
+    def __repr__(self):
+        return "[ " + ", ".join([str(x) for x in self.arr]) + " ]"
+
     def insert(self, o):
         bisect.insort_right(self.arr, o)
         return self
@@ -70,7 +73,7 @@ class NodeList(object):
             if not isinstance(obj, Node):
                 raise Exception("wrong object")
             buf.extend(obj.to_bytes())
-        return buf
+        return bytes(buf)
 
     @staticmethod
     def _split(buf, blen):

@@ -56,9 +56,7 @@ class BTreeCoreFile(object):
         )
         return max(size_leaf, size_inner)
 
-    def create_empty_list(
-        self,
-    ):
+    def create_empty_list(self):
         node, elem, other_elem = self.fd.insert_elem(max_data_alloc=self.alloc_max_size)
         return node, elem, NodeList()
 

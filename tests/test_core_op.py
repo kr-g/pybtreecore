@@ -27,8 +27,7 @@ class BTreeOpTestCase(unittest.TestCase):
 
         core = BTreeCoreFile(hpf)
 
-        msize = core.calc_empty()
-        node, elem, nodelist = core.create_empty_list(msize)
+        node, elem, nodelist = core.create_empty_list()
         self.assertNotEqual(node.id, None)
 
         # since the id's are unknown order is unpredictable

@@ -25,10 +25,10 @@ class BTreeTestCase(unittest.TestCase):
 
         core = BTreeCoreFile(hpf)
 
-        inner_size = core.calc_empty_list(leaf=False)
-        leaf_size = core.calc_empty_list(leaf=True)
+        inner_size = core._calc_empty_list(leaf=False)
+        leaf_size = core._calc_empty_list(leaf=True)
 
-        msize = core.calc_empty()
+        msize = core._calc_empty()
 
         n = Element(hpf)
         flag_size = 1
@@ -47,7 +47,7 @@ class BTreeTestCase(unittest.TestCase):
         self.assertEqual(msize, leaf_size)
         self.assertEqual(msize, max(el_size_1, el_size_2))
 
-        node, elem, nodelist = core.create_empty_list(msize)
+        node, elem, nodelist = core.create_empty_list()
         self.assertNotEqual(node.id, None)
 
         print("node id", node.id)

@@ -16,52 +16,49 @@ def newid():
 
 
 class BTreeCoreFile(object):
-    def __init__(self, heap_fd, alloc_max_size=None, link_size=LINK_SIZE):
-        self.alloc_max_size = alloc_max_size
-        self.heap_fd = heap_fd
-        self.fd = DoubleLinkedListFile(heap_fd=self.heap_fd, link_size=link_size)
-
-    def calc_empty_list(
+    def __init__(
         self,
-        leaf=True,
+        heap_fd,
         keys_per_node=KEYS_PER_NODE,
         key_size=KEY_SIZE,
         data_size=DATA_SIZE,
+        link_size=LINK_SIZE,
     ):
+
+        self.keys_per_node = keys_per_node
+        self.key_size = key_size
+        self.data_size = data_size
+
+        self.alloc_max_size = self._calc_empty()
+
+        self.heap_fd = heap_fd
+        self.fd = DoubleLinkedListFile(heap_fd=self.heap_fd, link_size=link_size)
+
+    def _calc_empty_list(self, leaf=True):
         nodelist = NodeList()
         node = Node(leaf=leaf)
-        node.set_key("".join([" " for i in range(0, key_size)]))
+        node.set_key("".join([" " for i in range(0, self.key_size)]))
         if leaf == True:
-            node.set_data("".join([" " for i in range(0, data_size)]))
+            node.set_data("".join([" " for i in range(0, self.data_size)]))
         # this nodelist is not written to heap
         # just created to get the max size on heap
-        [nodelist.insert(node) for i in range(0, keys_per_node)]
+        [nodelist.insert(node) for i in range(0, self.keys_per_node)]
         buf = nodelist.to_bytes()
         alloc_size = len(buf)
         return alloc_size
 
-    def calc_empty(
-        self,
-        keys_per_node=KEYS_PER_NODE,
-        key_size=KEY_SIZE,
-        data_size=DATA_SIZE,
-    ):
-        size_leaf = self.calc_empty_list(
+    def _calc_empty(self):
+        size_leaf = self._calc_empty_list(
             leaf=True,
-            keys_per_node=KEYS_PER_NODE,
-            key_size=KEY_SIZE,
-            data_size=DATA_SIZE,
         )
-        size_inner = self.calc_empty_list(
+        size_inner = self._calc_empty_list(
             leaf=False,
-            keys_per_node=KEYS_PER_NODE,
-            key_size=KEY_SIZE,
-            data_size=DATA_SIZE,
         )
         return max(size_leaf, size_inner)
 
-    def create_empty_list(self, alloc_max_size):
-        self.alloc_max_size = alloc_max_size
+    def create_empty_list(
+        self,
+    ):
         node, elem, other_elem = self.fd.insert_elem(max_data_alloc=self.alloc_max_size)
         return node, elem, NodeList()
 

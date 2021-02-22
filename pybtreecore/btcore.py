@@ -14,16 +14,6 @@ class BTreeCoreFile(object):
         self.heap_fd = heap_fd
         self.fd = DoubleLinkedListFile(heap_fd=self.heap_fd, link_size=link_size)
 
-    def read_list(self, pos):
-        node, elem = self.fd.read_elem(pos)
-        nodelist = NodeList()
-        nodelist.from_bytes(elem.data)
-        return node, elem, nodelist
-
-    def write_list(self, node, elem, nodelist):
-        elem.data = nodelist.to_bytes()
-        self.fd.write_elem(node, elem)
-
     def calc_empty_list(
         self,
         leaf=True,
@@ -67,6 +57,20 @@ class BTreeCoreFile(object):
         self.alloc_max_size = alloc_max_size
         node, elem, other_elem = self.fd.insert_elem(min_data_alloc=self.alloc_max_size)
         return node, elem, NodeList()
+
+    def read_list(self, pos, free_unused=True):
+        node, elem = self.fd.read_elem(pos)
+        nodelist = NodeList()
+        nodelist.from_bytes(elem.data)
+        if free_unused == True:
+            elem.data = None
+        return node, elem, nodelist
+
+    def write_list(self, node, elem, nodelist, free_unused=True):
+        elem.data = nodelist.to_bytes()
+        self.fd.write_elem(node, elem)
+        if free_unused == True:
+            elem.data = None
 
     def free_list(self, btlist):
         pass

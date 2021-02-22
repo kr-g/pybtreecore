@@ -55,7 +55,7 @@ class BTreeCoreFile(object):
 
     def create_empty_list(self, alloc_max_size):
         self.alloc_max_size = alloc_max_size
-        node, elem, other_elem = self.fd.insert_elem(min_data_alloc=self.alloc_max_size)
+        node, elem, other_elem = self.fd.insert_elem(max_data_alloc=self.alloc_max_size)
         return node, elem, NodeList()
 
     def read_list(self, pos, free_unused=True):

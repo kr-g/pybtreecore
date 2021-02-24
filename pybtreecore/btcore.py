@@ -80,12 +80,3 @@ class BTreeCoreFile(object):
         self.fd.write_elem(bt_elem.node, bt_elem.elem)
         if free_unused == True:
             bt_elem.elem.data = None
-
-    def free_list(self, bt_elem, bt_parent_elem=None):
-        pass
-
-    def split_list(self, bt_elem, bt_parent_elem=None):
-        pass
-
-    def merge_list(self, bt_elem, bt_parent_elem=None):
-        pass

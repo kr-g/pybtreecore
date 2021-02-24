@@ -4,7 +4,7 @@
 
 # pybtreecore - B-Tree (core persistence)
 
-`pybtreecore` is an implementation of the core B-Tree methods.
+`pybtreecore` provides core B-Tree methods for persisting in a `heapfile` / `dllfile`.
 
 
 # memory / file layout
@@ -18,19 +18,28 @@ for layout.
 
 ## general node layout
 
+### BTree node 
+
 | name | size / value | description |
 | --- | --- | --- | 
-| flags| 1 | boolean bit flags to indicate parent (1<<1) and leaf (1<<0) |
+| flags| 1 | boolean bit flags to indicate leaf (1<<0) |
 | len_high | 1 | key and data len high nibbles combined |
 | key_len_low | 1 | key len low byte (2 nibbles) |
 | data_len_low | 1 | data len low byte (2 nibbles) |
 | key | k bytes | key value |
-| parent | xpos bytes | parent node pointer, this exists only if parent == True |
 | data | d bytes | data value, this exists only the leaf == True |
 | left | xpos bytes | left node pointer, this exists only if leaf == False |
 | right | xpos bytes | right node pointer, this exists only if leaf == False |
 
 a list of nodes is stored as continuously stream of bytes inside a heap node.
+
+
+### BTree node list  
+
+| name | size / value | description |
+| --- | --- | --- | 
+| parent | xpos bytes | parent node pointer |
+| stream| n bytes | stream of btcore nodes |
 
 
 ## limitation
@@ -39,7 +48,6 @@ a list of nodes is stored as continuously stream of bytes inside a heap node.
 - see other limits also here [`pyheapfile`](https://github.com/kr-g/pyheapfile/)
 - key and data field len is limited to 12 bits (3 nibbles) 2**12 == 4096 bytes max len
 - 
-
 
 # Platform
 

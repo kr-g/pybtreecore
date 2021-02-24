@@ -44,7 +44,7 @@ setuptools.setup(
             "tests",
         ]
     ),
-    keywords="implementation of core B-Tree methods storage memory management",
+    keywords="implementation of core B-Tree methods storage memory management pyheapfile",
     install_requires=[
         "pyheapfile>=0.0.2",
     ],

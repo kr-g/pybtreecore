@@ -59,7 +59,7 @@ Tested on Python3, and Linux.
 alpha state.
 the API or logical call flow might change without prior notice.
 
-read [`CHANGELOG`](https://github.com/kr-g/pybpvtree/blob/main/CHANGELOG.MD)
+read [`CHANGELOG`](https://github.com/kr-g/pybtreecore/blob/main/CHANGELOG.MD)
 for latest, or upcoming news.
 
 
@@ -67,5 +67,5 @@ for latest, or upcoming news.
     
 available on pypi. install with:
 
-    python3 -m pip install pybpvtree
+    python3 -m pip install pybtreecore
     

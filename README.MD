@@ -4,7 +4,7 @@
 
 # pybtreecore - B-Tree (core persistence)
 
-`pybtreecore` provides core B-Tree methods for persisting in a `heapfile` / `dllfile`.
+`pybtreecore` provides core B-Tree/B+Tree/B*Tree methods for persisting in a `heapfile` / `dllfile`.
 
 
 # memory / file layout

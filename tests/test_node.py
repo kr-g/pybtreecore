@@ -54,3 +54,6 @@ class NodeTestCase(unittest.TestCase):
         n2 = Node().from_bytes(buf)
 
         self.assertEqual(n1, n2)
+
+        self.assertEqual(key_s, n2.key)
+        self.assertEqual(data_s, n2.data)

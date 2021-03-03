@@ -20,18 +20,29 @@ for layout.
 
 ### BTree node 
 
-| name | size / value | description |
+| name | size (bytes) | description |
 | --- | --- | --- | 
-| flags| 1 | boolean bit flags to indicate leaf (1<<0) |
-| len_high | 1 | key and data len high nibbles combined |
-| key_len_low | 1 | key len low byte (2 nibbles) |
-| data_len_low | 1 | data len low byte (2 nibbles) |
-| key | k bytes | key value |
-| data | d bytes | data value, this exists only the leaf == True |
+| flags| 1 | boolean bit flags to indicate which fields to persist (see below) |
+| len_high | 1 | key and data len high nibbles combined, this exists only if key, or data is set |
+| key_len_low | 1 | key len low byte (2 nibbles), this exists only if key is set |
+| data_len_low | 1 | data len low byte (2 nibbles), this exists only if data is set |
+| key | k bytes | key value, this exists only if key is set |
+| data | d bytes | data value, this exists only the leaf == True, this exists only if data is set |
 | left | xpos bytes | left node pointer, this exists only if leaf == False |
 | right | xpos bytes | right node pointer, this exists only if leaf == False |
 
 a list of nodes is stored as continuously stream of bytes inside a heap node.
+
+
+### BTree node flags
+
+| name | value | description |
+| --- | --- | --- | 
+| F_LEAF | 1 << 0 | node is leaf |
+| F_KEY | 1 << 1 | node key to persist |
+| F_DATA | 1 << 2 | node data to persist |
+| F_LEFT | 1 << 3 | node left xpos to persist |
+| F_RIGHT | 1 << 4 | node right xpos persist |
 
 
 ### BTree node list  

@@ -41,12 +41,17 @@ class BTreeCoreFile(object):
         self.heap_fd = heap_fd
         self.fd = DoubleLinkedListFile(heap_fd=self.heap_fd, link_size=link_size)
 
-    def _calc_empty_list(self, leaf=True):
+    def _calc_empty_list(self, leaf=True, set_right=True):
+        """this calculates more space than required by default since using 2 link pointer"""
         nodelist = NodeList()
-        node = Node(leaf=leaf)
+        node = Node()
         node.set_key("".join([" " for i in range(0, self.key_size)]))
         if leaf == True:
             node.set_data("".join([" " for i in range(0, self.data_size)]))
+        else:
+            node.set_left(1)
+            if set_right:
+                node.set_right(2)
         # this nodelist is not written to heap
         # just created to get the max size on heap
         [nodelist.insert(node) for i in range(0, self.keys_per_node)]
@@ -55,12 +60,8 @@ class BTreeCoreFile(object):
         return alloc_size
 
     def _calc_empty(self):
-        size_leaf = self._calc_empty_list(
-            leaf=True,
-        )
-        size_inner = self._calc_empty_list(
-            leaf=False,
-        )
+        size_leaf = self._calc_empty_list(leaf=True)
+        size_inner = self._calc_empty_list(leaf=False)
         return max(size_leaf, size_inner)
 
     def create_empty_list(self):

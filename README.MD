@@ -6,7 +6,7 @@
 
 `pybtreecore` provides core methods for persisting a 
 [`B-Tree/B+Tree/B*Tree`](https://en.wikipedia.org/wiki/B-tree) 
-Node in a `heapfile` / `dllfile`.
+Node, and a list of such Nodes, in a `heapfile` / `dllfile`.
 this module contains not the logic for searching, inserting, or deleting data in a tree.
 it also provides only a minimal set of integrity checks.
 

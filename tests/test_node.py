@@ -57,3 +57,6 @@ class NodeTestCase(unittest.TestCase):
 
         self.assertEqual(key_s, n2.key)
         self.assertEqual(data_s, n2.data)
+
+        self.assertEqual(len(key_s), n2.key_len)
+        self.assertEqual(len(data_s), n2.data_len)

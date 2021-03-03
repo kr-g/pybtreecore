@@ -27,9 +27,9 @@ for layout.
 | key_len_low | 1 | key len low byte (2 nibbles), this exists only if key is set |
 | data_len_low | 1 | data len low byte (2 nibbles), this exists only if data is set |
 | key | k bytes | key value, this exists only if key is set |
-| data | d bytes | data value, this exists only the leaf == True, this exists only if data is set |
-| left | xpos bytes | left node pointer, this exists only if leaf == False |
-| right | xpos bytes | right node pointer, this exists only if leaf == False |
+| data | d bytes | data value, this exists only if data is set |
+| left | xpos bytes | left node pointer, this exists only if flag is set |
+| right | xpos bytes | right node pointer, this exists only if flag is set |
 
 a list of nodes is stored as continuously stream of bytes inside a heap node.
 

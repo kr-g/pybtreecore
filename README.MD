@@ -52,6 +52,9 @@ a list of nodes is stored as continuously stream of bytes inside a heap node.
 | parent | xpos bytes | parent node pointer |
 | stream| n bytes | stream of btcore nodes |
 
+a node list resides inside a `dllfile` (Double Linked List) as data part.
+refer also for layout [`pydllfile`](https://github.com/kr-g/pydllfile/)
+
 
 ## limitation
 

@@ -134,7 +134,7 @@ class Node(object):
         if self.flags & F_RIGHT > 0:
             buf.extend(to_bytes(self.right, self.link_size))
 
-        return buf
+        return bytes(buf)
 
     @staticmethod
     def _split(buf, blen):

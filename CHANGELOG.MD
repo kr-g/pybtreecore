@@ -2,6 +2,12 @@
 # changelog
 
 
+## next release v0.0.2
+
+- added standard type converter (encode/decode) for btnode key and data fields
+- 
+
+
 ## release v0.0.1 
 
 - first release

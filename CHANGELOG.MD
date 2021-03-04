@@ -10,7 +10,7 @@
 
 ## backlog
 
-- standard types encoder/decoder for btree-node
+~~- standard types encoder/decoder for btree-node~~
 - more testcases
 - refer also backlog of:
   - [`pyheapfile`](https://github.com/kr-g/pyheapfile/)

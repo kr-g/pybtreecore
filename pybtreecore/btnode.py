@@ -25,8 +25,13 @@ class Node(object):
         left=0,
         right=0,
         link_size=LINK_SIZE,
+        conv_key=None,
+        conv_data=None,
     ):
         self.link_size = link_size
+        self.conv_key = conv_key
+        self.conv_data = conv_data
+
         self.flags = 0
         self.set_flags(0, flags)
         if leaf:
@@ -74,17 +79,24 @@ class Node(object):
         self.leaf = self.flags & F_LEAF > 0
         return self.flags
 
+    def _get_len(self, obj):
+        try:
+            return len(obj) if obj != None else 0
+        except:
+            # dummy for any other type which doesnt support len
+            return 1.0
+
     def set_key(self, key):
-        self.key_len = len(key) if key != None else 0
+        self.key_len = self._get_len(key)
         self.set_flags(F_KEY, F_KEY if self.key_len > 0 else 0)
         if self.key_len > KEY_DATA_MAX:
             raise Exception("key len exceeded")
         self.key = key
 
     def set_data(self, data, patch_leaf=True):
+        self.data_len = self._get_len(data)
         if patch_leaf:
-            self.set_flags(F_LEAF, data != None and len(data) > 0)
-        self.data_len = len(data) if data != None else 0
+            self.set_flags(F_LEAF, data != None and self.data_len > 0)
         self.set_flags(F_DATA, F_DATA if self.data_len > 0 else 0)
         if self.data_len > KEY_DATA_MAX:
             raise Exception("data len exceeded")
@@ -101,6 +113,30 @@ class Node(object):
     def to_bytes(self, encode_key=True, encode_data=True):
         buf = []
         buf.extend(to_bytes(self.flags, 1))
+
+        key_buf = None
+        if self.flags & F_KEY > 0:
+            if self.key == None or self.key_len == 0:
+                raise Exception("no key set")
+
+            key_buf = (
+                (self.key.encode() if encode_key else self.key)
+                if self.conv_key == None
+                else self.conv_key.encode(self.key)
+            )
+            self.key_len = len(key_buf)
+
+        data_buf = None
+        if self.flags & F_DATA > 0:
+            if self.data == None or self.data_len == 0:
+                raise Exception("no data set")
+
+            data_buf = (
+                (self.data.encode() if encode_data else self.data)
+                if self.conv_data == None
+                else self.conv_data.encode(self.data)
+            )
+            self.data_len = len(data_buf)
 
         if (self.flags & (F_KEY | F_DATA)) > 0:
 
@@ -119,15 +155,11 @@ class Node(object):
             if self.flags & F_DATA > 0:
                 buf.extend(to_bytes(data_low, 1))
 
-        if self.flags & F_KEY > 0:
-            if self.key == None or len(self.key) == 0:
-                raise Exception("no key set")
-            buf.extend(self.key.encode() if encode_key else self.key)
+        if key_buf != None:
+            buf.extend(key_buf)
 
-        if self.flags & F_DATA > 0:
-            if self.data == None or len(self.data) == 0:
-                raise Exception("no data set")
-            buf.extend(self.data.encode() if encode_data else self.data)
+        if data_buf != None:
+            buf.extend(data_buf)
 
         if self.flags & F_LEFT > 0:
             buf.extend(to_bytes(self.left, self.link_size))
@@ -167,13 +199,19 @@ class Node(object):
 
             if self.flags & F_KEY > 0:
                 b, buf = self._split(buf, self.key_len)
-                self.key = bytes(b).decode() if decode_key else b
+                if self.conv_key == None:
+                    self.key = bytes(b).decode() if decode_key else b
+                else:
+                    self.key = self.conv_key.decode(b)
             else:
                 self.key = None
 
             if self.flags & F_DATA > 0:
                 b, buf = self._split(buf, self.data_len)
-                self.data = bytes(b).decode() if decode_data else b
+                if self.conv_data == None:
+                    self.data = bytes(b).decode() if decode_data else b
+                else:
+                    self.data = self.conv_data.decode(b)
             else:
                 self.data = None
 

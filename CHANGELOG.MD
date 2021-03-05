@@ -21,4 +21,5 @@
 - refer also backlog of:
   - [`pyheapfile`](https://github.com/kr-g/pyheapfile/)
   - [`pydllfile`](https://github.com/kr-g/pydllfile/)
+- convert (encode/decode) of standard types (refactor to heap file project)
 

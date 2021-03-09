@@ -5,6 +5,7 @@
 ## next release v0.0.2
 
 - added standard type converter (encode/decode) for btnode key and data fields
+- refactored coverter handling from constructor to to_bytes/from_bytes
 - 
 
 

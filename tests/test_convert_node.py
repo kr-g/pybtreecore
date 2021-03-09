@@ -15,20 +15,35 @@ class ConvertNodeTestCase(unittest.TestCase):
 
     def test_node_default(self):
         key = "hello_world"
+        data = 3.0
+
+        conv_data = ConvertFloat()
+
+        n = Node(key=key, data=data)
+
+        buf = n.to_bytes(conv_data=conv_data)
+
+        nd = Node().from_bytes(buf, conv_data=conv_data)
+
+        self.assertEqual(n, nd)
+
+        self.assertEqual(nd.data, data)
+
+    def test_node_data_compl(self):
+        key = "hello_world"
         data = complex(3, 14)
 
         conv_data = ConvertComplex()
 
-        n = Node(key=key, data=conv_data.encode(data))
+        n = Node(key=key, data=data)
 
-        buf = n.to_bytes(encode_data=False)
+        buf = n.to_bytes(conv_data=conv_data)
 
-        nd = Node().from_bytes(buf, decode_data=False)
+        nd = Node().from_bytes(buf, conv_data=conv_data)
 
         self.assertEqual(n, nd)
 
-        cplx = conv_data.decode(nd.data)
-        self.assertEqual(cplx, data)
+        self.assertEqual(nd.data, data)
 
     def test_node_conv(self):
         key = "hello_world"
@@ -37,11 +52,11 @@ class ConvertNodeTestCase(unittest.TestCase):
         conv_key = ConvertStr()
         conv_data = ConvertComplex()
 
-        n = Node(key=key, data=data, conv_key=conv_key, conv_data=conv_data)
+        n = Node(key=key, data=data)
 
-        buf = n.to_bytes()
+        buf = n.to_bytes(conv_key=conv_key, conv_data=conv_data)
 
-        nd = Node(conv_key=conv_key, conv_data=conv_data).from_bytes(buf)
+        nd = Node().from_bytes(buf, conv_key=conv_key, conv_data=conv_data)
 
         self.assertEqual(n, nd)
 
@@ -55,11 +70,11 @@ class ConvertNodeTestCase(unittest.TestCase):
         conv_key = ConvertFloat()
         conv_data = ConvertComplex()
 
-        n = Node(key=key, data=data, conv_key=conv_key, conv_data=conv_data)
+        n = Node(key=key, data=data)
 
-        buf = n.to_bytes()
+        buf = n.to_bytes(conv_key=conv_key, conv_data=conv_data)
 
-        nd = Node(conv_key=conv_key, conv_data=conv_data).from_bytes(buf)
+        nd = Node().from_bytes(buf, conv_key=conv_key, conv_data=conv_data)
 
         self.assertEqual(n, nd)
 
@@ -79,11 +94,11 @@ class ConvertNodeTestCase(unittest.TestCase):
         conv_key = ConvertComplex()
         conv_data = ConvertComplex()
 
-        n = ComplexNode(key=key, data=data, conv_key=conv_key, conv_data=conv_data)
+        n = ComplexNode(key=key, data=data)
 
-        buf = n.to_bytes()
+        buf = n.to_bytes(conv_key=conv_key, conv_data=conv_data)
 
-        nd = ComplexNode(conv_key=conv_key, conv_data=conv_data).from_bytes(buf)
+        nd = ComplexNode().from_bytes(buf, conv_key=conv_key, conv_data=conv_data)
 
         self.assertEqual(n, nd)
 

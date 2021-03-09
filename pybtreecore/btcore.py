@@ -21,6 +21,15 @@ class BTreeElement(object):
         self.elem = elem
         self.nodelist = nodelist
 
+    def __repr__(self):
+        return (
+            self.__class__.__name__
+            + "( "
+            # + str(self.node)
+            # + str(self.elem)
+            + str(self.nodelist)
+        )
+
 
 class BTreeCoreFile(object):
     def __init__(
@@ -68,16 +77,18 @@ class BTreeCoreFile(object):
         node, elem, other_elem = self.fd.insert_elem(max_data_alloc=self.alloc_max_size)
         return BTreeElement(node, elem, NodeList())
 
-    def read_list(self, pos, free_unused=True):
+    def read_list(self, pos, conv_key=None, conv_data=None, free_unused=True):
         node, elem = self.fd.read_elem(pos)
         nodelist = NodeList()
-        nodelist.from_bytes(elem.data)
+        nodelist.from_bytes(elem.data, conv_key=conv_key, conv_data=conv_data)
         if free_unused == True:
             elem.data = None
         return BTreeElement(node, elem, nodelist)
 
-    def write_list(self, bt_elem, free_unused=True):
-        bt_elem.elem.data = bt_elem.nodelist.to_bytes()
+    def write_list(self, bt_elem, conv_key=None, conv_data=None, free_unused=True):
+        bt_elem.elem.data = bt_elem.nodelist.to_bytes(
+            conv_key=conv_key, conv_data=conv_data
+        )
         self.fd.write_elem(bt_elem.node, bt_elem.elem)
         if free_unused == True:
             bt_elem.elem.data = None

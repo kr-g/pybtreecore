@@ -80,7 +80,7 @@ class NodeList(object):
                 return False
         return True
 
-    def to_bytes(self):
+    def to_bytes(self, conv_key=None, conv_data=None):
         buf = []
         _len = len(self.arr)
         if _len > 0xFF:
@@ -90,19 +90,19 @@ class NodeList(object):
             obj = self.arr[i]
             if not isinstance(obj, Node):
                 raise Exception("wrong object")
-            buf.extend(obj.to_bytes())
+            buf.extend(obj.to_bytes(conv_key=conv_key, conv_data=conv_data))
         return bytes(buf)
 
     @staticmethod
     def _split(buf, blen):
         return buf[:blen], buf[blen:]
 
-    def from_bytes(self, buf):
+    def from_bytes(self, buf, conv_key=None, conv_data=None):
         b, buf = self._split(buf, self.link_size)
         self.parent = from_bytes(b)
         while len(buf) > 0:
             n = Node()
-            res = n.from_bytes(buf)
+            res = n.from_bytes(buf, conv_key=conv_key, conv_data=conv_data)
             self.arr.append(n)
             if isinstance(res, Node):
                 break

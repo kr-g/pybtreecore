@@ -25,12 +25,12 @@ class Node(object):
         left=0,
         right=0,
         link_size=LINK_SIZE,
-        conv_key=None,
-        conv_data=None,
+        # conv_key=None,
+        # conv_data=None,
     ):
         self.link_size = link_size
-        self.conv_key = conv_key
-        self.conv_data = conv_data
+        # self.conv_key = conv_key
+        # self.conv_data = conv_data
 
         self.flags = 0
         self.set_flags(0, flags)
@@ -110,7 +110,9 @@ class Node(object):
         self.set_flags(F_RIGHT, F_RIGHT if right > 0 else 0)
         self.right = right
 
-    def to_bytes(self, encode_key=True, encode_data=True):
+    def to_bytes(
+        self, encode_key=True, encode_data=True, conv_key=None, conv_data=None
+    ):
         buf = []
         buf.extend(to_bytes(self.flags, 1))
 
@@ -120,9 +122,9 @@ class Node(object):
                 raise Exception("no key set")
 
             key_buf = (
-                (self.key.encode() if encode_key else self.key)
-                if self.conv_key == None
-                else self.conv_key.encode(self.key)
+                conv_key.encode(self.key)
+                if conv_key != None
+                else (self.key.encode() if encode_key else self.key)
             )
             self.key_len = len(key_buf)
 
@@ -132,9 +134,9 @@ class Node(object):
                 raise Exception("no data set")
 
             data_buf = (
-                (self.data.encode() if encode_data else self.data)
-                if self.conv_data == None
-                else self.conv_data.encode(self.data)
+                conv_data.encode(self.data)
+                if conv_data != None
+                else (self.data.encode() if encode_data else self.data)
             )
             self.data_len = len(data_buf)
 
@@ -172,7 +174,15 @@ class Node(object):
     def _split(buf, blen):
         return buf[:blen], buf[blen:]
 
-    def from_bytes(self, buf, pos=0, decode_key=True, decode_data=True):
+    def from_bytes(
+        self,
+        buf,
+        pos=0,
+        decode_key=True,
+        decode_data=True,
+        conv_key=None,
+        conv_data=None,
+    ):
         self.pos = pos
         b, buf = self._split(buf, 1)
         flags = from_bytes(b)
@@ -199,19 +209,19 @@ class Node(object):
 
             if self.flags & F_KEY > 0:
                 b, buf = self._split(buf, self.key_len)
-                if self.conv_key == None:
+                if conv_key == None:
                     self.key = bytes(b).decode() if decode_key else b
                 else:
-                    self.key = self.conv_key.decode(b)
+                    self.key = conv_key.decode(b)
             else:
                 self.key = None
 
             if self.flags & F_DATA > 0:
                 b, buf = self._split(buf, self.data_len)
-                if self.conv_data == None:
+                if conv_data == None:
                     self.data = bytes(b).decode() if decode_data else b
                 else:
-                    self.data = self.conv_data.decode(b)
+                    self.data = conv_data.decode(b)
             else:
                 self.data = None
 

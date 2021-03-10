@@ -26,19 +26,18 @@ class NodeList(object):
         return self.arr.pop(pos)
 
     def join(self, other):
-        nl = NodeList(link_size=self.link_size)
+        nl = NodeList(link_size=self.link_size, parent=self.parent)
         nl.arr = list(self.arr)
         nl.arr.extend(other.arr)
         return nl
 
     def sliced(self, a=None, b=None):
-        nl = NodeList(link_size=self.link_size)
+        nl = NodeList(link_size=self.link_size, parent=self.parent)
         nl.arr = list(self.arr[a:b])
-        nl.parent = self.parent
         return nl
 
-    def split_at(self,pos):
-        nl = self.sliced(pos,None)
+    def split_at(self, pos):
+        nl = self.sliced(pos, None)
         self.arr = list(self.arr[:pos])
         return nl
 

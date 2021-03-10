@@ -34,6 +34,12 @@ class NodeList(object):
     def sliced(self, a=None, b=None):
         nl = NodeList(link_size=self.link_size)
         nl.arr = list(self.arr[a:b])
+        nl.parent = self.parent
+        return nl
+
+    def split_at(self,pos):
+        nl = self.sliced(pos,None)
+        self.arr = list(self.arr[:pos])
         return nl
 
     def remove(self, o):

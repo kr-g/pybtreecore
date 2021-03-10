@@ -26,7 +26,7 @@ class BTreeElement(object):
             self.__class__.__name__
             + "( "
             # + str(self.node)
-            # + str(self.elem)
+            + str(self.elem)
             + str(self.nodelist)
         )
 

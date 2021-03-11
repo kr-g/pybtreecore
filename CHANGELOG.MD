@@ -8,6 +8,7 @@
 - refactored coverter handling from constructor to to_bytes/from_bytes
 - refactored split handling
 - refactored parent handling
+- added hexdump tool
 - 
 
 

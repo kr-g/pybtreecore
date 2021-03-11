@@ -80,7 +80,8 @@ class BTreeCoreFile(object):
     def read_list(self, pos, conv_key=None, conv_data=None, free_unused=True):
         node, elem = self.fd.read_elem(pos)
         nodelist = NodeList()
-        nodelist.from_bytes(elem.data, conv_key=conv_key, conv_data=conv_data)
+        if elem.data != None and len(elem.data) > 0:
+            nodelist.from_bytes(elem.data, conv_key=conv_key, conv_data=conv_data)
         if free_unused == True:
             elem.data = None
         return BTreeElement(node, elem, nodelist)

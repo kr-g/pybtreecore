@@ -10,6 +10,12 @@ Node, and a list of such Nodes, in a `heapfile` / `dllfile`.
 this module contains not the logic for searching, inserting, or deleting data in a tree.
 it also provides only a minimal set of integrity checks.
 
+# What's new ?
+
+Check
+[`CHANGELOG`](https://github.com/kr-g/pybtreecore/blob/main/CHANGELOG.MD)
+for latest ongoing, or upcoming news
+
 
 # memory / file layout
 
@@ -58,6 +64,51 @@ a list of nodes is stored as continuously stream of bytes inside a heap node.
 
 a node list resides inside a `dllfile` (Double Linked List) as data part.
 refer also for layout [`pydllfile`](https://github.com/kr-g/pydllfile/)
+
+
+## remark on hexdump tool
+
+the internal hexdump tool for dumping single b-tree nodes from the btcorefile can be called with:
+
+    usage: python3 -m pybtreecore.hexdump [options]
+
+    dump heapfile b-tree elements
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -v, --version         show version info and exit
+      -V, --verbose         show more info
+      -f FILE_NAME, --file FILE_NAME
+                            input file
+      -n NODE_NO, --node NODE_NO
+                            hex address of node. blanks in a quoted string are
+                            ignored. address of 0x0 will read the 2nd heap node
+                            since a dll element node can not be stored in first
+                            heap node. (default: 000000)
+      -l LINK_NO, --link LINK_NO
+                            hex address of dll element node. blanks in a quoted
+                            string are ignored. (default: 000000)
+      -aw ADDESS_WIDTH, --addess_width ADDESS_WIDTH
+                            hex address width. (default: 6)
+      -ls LINK_SIZE, --link_size LINK_SIZE
+                            link size. (default: 8)
+      -r REL_NO, --relative REL_NO
+                            relative position of dll element node. can be combined
+                            with -n or -l option. when negative it reads backwards
+                            starting from the -n/-l node. keep in mind that -n is
+                            an address and -r is a position. (default: 0)
+      -nav NAVIGATE, --navigate NAVIGATE
+                            combined navigate string such as: {number[p|l|r]}+,
+                            where p: parent, l: left, r: right e.g. "-nav 0l1lpp"
+                            will navigate node[0].left -> node[1].left ->
+                            node.parent -> node.parent (will be again the starting
+                            node)
+      -w WIDTH, --width WIDTH
+                            with of data output (default: 16)
+      -g GROUP, --group GROUP
+                            group bytes in data output (default: 1)
+      -ho, --header_only    prints only header, no data.
+
 
 
 ## limitation

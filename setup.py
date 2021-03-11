@@ -46,7 +46,8 @@ setuptools.setup(
     ),
     keywords="implementation of core B-Tree methods storage memory management pyheapfile",
     install_requires=[
-        "pyheapfile>=0.0.2",
+        "pyheapfile>=0.0.3",
+        "pydllfile>=0.0.2",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

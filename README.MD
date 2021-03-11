@@ -68,6 +68,7 @@ refer also for layout [`pydllfile`](https://github.com/kr-g/pydllfile/)
 
 ## remark on hexdump tool
 
+hexdump tool raise error when configured not properly. use valid hex address for node and link.
 the internal hexdump tool for dumping single b-tree nodes from the btcorefile can be called with:
 
     usage: python3 -m pybtreecore.hexdump [options]

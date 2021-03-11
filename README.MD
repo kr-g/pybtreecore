@@ -99,7 +99,7 @@ the internal hexdump tool for dumping single b-tree nodes from the btcorefile ca
                             starting from the -n/-l node. keep in mind that -n is
                             an address and -r is a position. (default: 0)
       -nav NAVIGATE, --navigate NAVIGATE
-                            combined navigate string such as: {number[p|l|r]}+,
+                            combined navigate string such as: {hexnumber[p|l|r]}+,
                             where p: parent, l: left, r: right e.g. "-nav 0l1lpp"
                             will navigate node[0].left -> node[1].left ->
                             node.parent -> node.parent (will be again the starting

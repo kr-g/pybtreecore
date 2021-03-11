@@ -121,7 +121,7 @@ def main():
         dest="navigate",
         action="store",
         help="""combined navigate string such as: 
-                {number[p|l|r]}+, where
+                {hexnumber[p|l|r]}+, where
                 p: parent,
                 l: left,
                 r: right
@@ -223,13 +223,13 @@ def main():
             idx = ""
             while len(nav) > 0:
                 ch = nav.pop(0)
-                if ch in string.digits:
+                if ch in string.hexdigits:
                     idx += ch
                     continue
                 if len(idx) == 0:
                     yield [0, ch]
                 else:
-                    yield [int(idx), ch]
+                    yield [int(idx, 16), ch]
                 break
         return
 

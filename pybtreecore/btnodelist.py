@@ -13,7 +13,15 @@ class NodeList(object):
         self.arr = []
 
     def __repr__(self):
-        return "[ " + ", ".join([str(x) for x in self.arr]) + " ]"
+        return (
+            self.__class__.__name__
+            + "( [ "
+            + ", ".join([str(x) for x in self.arr])
+            + " ]"
+            + ", parent:"
+            + hex(self.parent)
+            + " )"
+        )
 
     def insert(self, o):
         bisect.insort_right(self.arr, o)

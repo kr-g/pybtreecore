@@ -125,6 +125,8 @@ def main():
                 p: parent,
                 l: left,
                 r: right
+                -: prev leaf node in double linked list 
+                +: succ leaf node in double linked list
                 e.g. "-nav 0l1lpp"
                 will navigate node[0].left -> node[1].left -> node.parent -> node.parent
                 (will be again the starting node)
@@ -246,6 +248,10 @@ def main():
             npos = n.left
         elif ln == "r":
             npos = n.right
+        elif ln == "-":
+            npos = btelem.elem.prev
+        elif ln == "+":
+            npos = btelem.elem.succ
         else:
             raise Exception("unknown navigation link", ln)
 

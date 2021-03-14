@@ -65,7 +65,8 @@ class Node(object):
 
     def __eq__(self, other):
         return (
-            self.flags == other.flags
+            other != None
+            and self.flags == other.flags
             and self.leaf == other.leaf
             and self.key == other.key
             and self.data == other.data

@@ -3,7 +3,10 @@
 
 ## next release v0.0.3
 
--
+- fix btnode eq operator against None
+- repr print formating
+- hexdump navigation added +/- for navigating within the double linked list leaf nodes
+- 
 
 
 ## next release v0.0.2

@@ -27,6 +27,7 @@ class BTreeElement(object):
             + "( "
             # + str(self.node)
             + str(self.elem)
+            + ", "
             + str(self.nodelist)
         )
 

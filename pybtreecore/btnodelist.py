@@ -16,7 +16,7 @@ class NodeList(object):
         return (
             self.__class__.__name__
             + "( [ "
-            + ", ".join([str(x) for x in self.arr])
+            + ",\n ".join([str(x) for x in self.arr])
             + " ]"
             + ", parent:"
             + hex(self.parent)

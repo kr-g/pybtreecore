@@ -6,6 +6,7 @@
 - fix btnode eq operator against None
 - repr print formating
 - hexdump navigation added +/- for navigating within the double linked list leaf nodes
+- fix find_key
 - 
 
 

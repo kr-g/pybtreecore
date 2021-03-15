@@ -53,7 +53,7 @@ class NodeList(object):
         return self.arr.remove(o)
 
     def find_key(self, key):
-        for i in len(self.arr):
+        for i in range(0, len(self.arr)):
             skey = self[i].key
             if skey == key:
                 return i

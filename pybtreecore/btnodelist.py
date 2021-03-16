@@ -7,7 +7,7 @@ from .btnode import Node, LINK_SIZE
 
 class NodeList(object):
     def __init__(self, pos=0, parent=0, link_size=LINK_SIZE):
-        self.pos = pos
+        # self.pos = pos
         self.link_size = link_size
         self.parent = parent
         self.arr = []
@@ -16,7 +16,7 @@ class NodeList(object):
         return (
             self.__class__.__name__
             + "( [ "
-            + ",\n ".join([str(x) for x in self.arr])
+            + ", ".join([str(x) for x in self.arr])
             + " ]"
             + ", parent:"
             + hex(self.parent)

@@ -52,6 +52,12 @@ class NodeList(object):
     def remove(self, o):
         return self.arr.remove(o)
 
+    def remove_key(self, key):
+        pos = self.find_key(key)
+        if pos<0:
+            raise Exception("key not found", key)
+        self.arr.pop(pos)
+
     def find_key(self, key):
         for i in range(0, len(self.arr)):
             skey = self[i].key

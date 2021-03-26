@@ -8,6 +8,7 @@
 - hexdump navigation added +/- for navigating within the double linked list leaf nodes
 - fix find_key
 - removed ununsed pos property from nodelist
+- added remove_key method to nodelist
 - 
 
 

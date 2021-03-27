@@ -54,7 +54,7 @@ class NodeList(object):
 
     def remove_key(self, key):
         pos = self.find_key(key)
-        if pos<0:
+        if pos < 0:
             raise Exception("key not found", key)
         self.arr.pop(pos)
 

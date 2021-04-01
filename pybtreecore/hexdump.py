@@ -240,10 +240,19 @@ def main():
     )
 
     for idx, ln in _navi(navigate):
-        n = btelem.nodelist[idx]
+        n = (
+            btelem.nodelist[idx]
+            if ln
+            in [
+                "p",
+                "l",
+                "r",
+            ]
+            else None
+        )
         npos = btelem.nodelist.parent
         if ln == "p":
-            pass
+            pass  # default set already above
         elif ln == "l":
             npos = n.left
         elif ln == "r":

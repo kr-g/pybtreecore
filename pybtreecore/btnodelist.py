@@ -10,6 +10,9 @@ class NodeList(object):
         # self.pos = pos
         self.link_size = link_size
         self.parent = parent
+        self.clear()
+
+    def clear(self):
         self.arr = []
 
     def __repr__(self):
@@ -56,7 +59,7 @@ class NodeList(object):
         pos = self.find_key(key)
         if pos < 0:
             raise Exception("key not found", key)
-        self.arr.pop(pos)
+        return self.arr.pop(pos)
 
     def find_key(self, key):
         for i in range(0, len(self.arr)):

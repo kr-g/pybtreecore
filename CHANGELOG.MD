@@ -10,6 +10,7 @@
 - removed ununsed pos property from nodelist
 - added remove_key method to nodelist
 - fix hexdump navigation -/+ via empty nodelist
+- added clean method to nodelist
 - 
 
 

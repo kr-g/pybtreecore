@@ -1,7 +1,12 @@
 
 # changelog
 
-## next release v0.0.3
+## next release v0.0.4
+
+- 
+
+
+## release v0.0.3
 
 - fix btnode eq operator against None
 - repr print formating
@@ -12,6 +17,16 @@
 - fix hexdump navigation -/+ via empty nodelist
 - added clean method to nodelist
 - 
+
+
+## backlog
+
+~~- standard types encoder/decoder for btree-node~~
+- more testcases
+- refer also backlog of:
+  - [`pyheapfile`](https://github.com/kr-g/pyheapfile/)
+  - [`pydllfile`](https://github.com/kr-g/pydllfile/)
+- convert (encode/decode) of standard types (refactor to heap file project)
 
 
 ## next release v0.0.2
@@ -28,14 +43,4 @@
 
 - first release
 - 
-
-
-## backlog
-
-~~- standard types encoder/decoder for btree-node~~
-- more testcases
-- refer also backlog of:
-  - [`pyheapfile`](https://github.com/kr-g/pyheapfile/)
-  - [`pydllfile`](https://github.com/kr-g/pydllfile/)
-- convert (encode/decode) of standard types (refactor to heap file project)
 

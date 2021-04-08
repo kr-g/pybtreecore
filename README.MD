@@ -116,6 +116,13 @@ the internal hexdump tool for dumping single b-tree nodes from the btcorefile ca
 - key and data field len is limited to 12 bits (3 nibbles) 2**12 == 4096 bytes max len
 - 
 
+
+# Related Projects
+
+search for topic [`pyheapfile`](https://github.com/topics/pyheapfile) 
+on github to explore related tools/ modules.
+
+
 # Platform
 
 Tested on Python3, and Linux.

@@ -1,7 +1,7 @@
 
 # changelog
 
-# release v0.0.4
+# release v0.0.4 & v0.0.5
 
 - fixed wheel upload
 - 
